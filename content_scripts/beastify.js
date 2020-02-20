@@ -16,8 +16,10 @@
    */
   function insertBeast(beastURL) {
     removeExistingBeasts();
-    let beastImage = document.createElement("img");
-    beastImage.setAttribute("src", beastURL);
+    let beastImage = document.createElement("p");
+	let url = window.location.href;
+	beastImage.innerHTML = url;
+    // beastImage.setAttribute("src", beastURL);
     beastImage.style.height = "100vh";
     beastImage.className = "beastify-image";
     document.body.appendChild(beastImage);

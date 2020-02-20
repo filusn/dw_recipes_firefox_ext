@@ -6,6 +6,11 @@ const hidePage = `body > :not(.beastify-image) {
                     display: none;
                   }`;
 
+function logTabs(tabs) {
+    let tab = tabs[0]; // Safe to assume there will only be one result
+    console.log(tab.url);
+}
+				  
 /**
  * Listen for clicks on the buttons, and send the appropriate message to
  * the content script in the page.
@@ -18,12 +23,11 @@ function listenForClicks() {
      */
     function beastNameToURL(beastName) {
       switch (beastName) {
-        case "Frog":
-          return browser.extension.getURL("beasts/frog.jpg");
-        case "Snake":
-          return browser.extension.getURL("beasts/snake.jpg");
-        case "Turtle":
-          return browser.extension.getURL("beasts/turtle.jpg");
+        case "Add":
+		
+          return "Adding";
+        case "Create":
+          return "Creating";
       }
     }
 
