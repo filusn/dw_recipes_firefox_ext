@@ -21,6 +21,10 @@
     "default_popup": "popup/choose_beast.html"
   },
 
+  "background": {
+    "scripts": ["background_scripts/background.js"]
+  },
+
   "web_accessible_resources": [
     "beasts/frog.jpg",
     "beasts/turtle.jpg",
