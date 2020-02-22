@@ -10,6 +10,21 @@
   window.hasRun = true;
 
   /**
+   * At "add" command, remove all existing beasts,
+   * get current url, create and style P element, 
+   * then insert the element into the document.
+   */
+  function getURL() {
+    removeExistingBeasts();
+    let currentURL = window.location.href;
+    let urlP = document.createElement("p");
+    urlP.style.height = "100vh";
+    urlP.style.fontSize = "20px";
+    urlP.innerHTML = currentURL;
+    document.body.appendChild(urlP)
+  }
+
+  /**
    * Given a URL to a beast image, remove all existing beasts, then
    * create and style an IMG node pointing to
    * that image, then insert the node into the document.
@@ -44,6 +59,8 @@
       insertBeast(message.beastURL);
     } else if (message.command === "reset") {
       removeExistingBeasts();
+    } else if (message.command === "add") {
+      getURL();
     }
   });
 
