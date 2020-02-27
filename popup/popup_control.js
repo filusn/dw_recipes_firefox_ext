@@ -5,11 +5,6 @@
 const hidePage = `body > :not(.url-text) {
                     display: none;
                   }`;
-
-function logTabs(tabs) {
-    let tab = tabs[0]; // Safe to assume there will only be one result
-    console.log(tab.url);
-}
 				  
 /**
  * Listen for clicks on the buttons, and send the appropriate message to
@@ -80,9 +75,10 @@ function listenForClicks() {
      * Get the active tab,
      * then call appropriate function.
      */
+    console.log(e.target.classList);
     if (e.target.classList.contains("add")) {
       browser.tabs.query({active: true, currentWindow: true})
-        .then(add)
+        .then(add())
         .catch(reportError);
     }
     else if (e.target.classList.contains("remove")) {
