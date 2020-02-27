@@ -40,7 +40,7 @@ function listenForClicks() {
       browser.tabs.insertCSS({code: hidePage}).then(() => {
         let url = beastNameToURL(e.target.textContent);
         browser.tabs.sendMessage(tabs[0].id, {
-          command: "beastify",
+          command: "add",
           beastURL: url
         });
       });

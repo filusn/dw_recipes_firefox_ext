@@ -17,11 +17,12 @@
   function getURL() {
     removeExistingBeasts();
     let currentURL = window.location.href;
+    browser.runtime.sendMessage({"command": "add", "url": currentURL});
     let urlP = document.createElement("p");
     urlP.style.height = "100vh";
     urlP.style.fontSize = "20px";
     urlP.innerHTML = currentURL;
-    document.body.appendChild(urlP)
+    document.body.appendChild(urlP);
   }
 
   /**
