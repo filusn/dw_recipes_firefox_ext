@@ -18,7 +18,7 @@
   "browser_action": {
     "default_icon": "icons/beasts-32.png",
     "default_title": "Recipy",
-    "default_popup": "popup/choose_beast.html"
+    "default_popup": "popup/popup_control.html"
   },
 
   "background": {

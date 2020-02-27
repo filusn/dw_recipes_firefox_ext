@@ -1,8 +1,8 @@
 /**
  * CSS to hide everything on the page,
- * except for elements that have the "beastify-image" class.
+ * except for elements that have the "url-text" class.
  */
-const hidePage = `body > :not(.beastify-image) {
+const hidePage = `body > :not(.url-text) {
                     display: none;
                   }`;
 
@@ -17,17 +17,12 @@ function logTabs(tabs) {
  */
 function listenForClicks() {
   document.addEventListener("click", (e) => {
-
-    /**
-     * Given the name of a beast, get the URL to the corresponding image.
-     */
     function beastNameToURL(beastName) {
       switch (beastName) {
         case "Add":
-		
           return "Adding";
-        case "Create":
-          return "Creating";
+        case "Remove":
+          return "Removing";
       }
     }
 
@@ -36,12 +31,28 @@ function listenForClicks() {
      * then get the beast URL and
      * send a "beastify" message to the content script in the active tab.
      */
-    function beastify(tabs) {
+    function add(tabs) {
       browser.tabs.insertCSS({code: hidePage}).then(() => {
         let url = beastNameToURL(e.target.textContent);
         browser.tabs.sendMessage(tabs[0].id, {
           command: "add",
           beastURL: url
+        });
+      });
+    }
+
+    function remove(tabs) {
+      browser.tabs.removeCSS({code: hidePage}).then(() => {
+        browser.tabs.sendMessage(tabs[0].id, {
+          command: "remove",
+        });
+      });
+    }
+    
+    function generate(tabs) {
+      browser.tabs.removeCSS({code: hidePage}).then(() => {
+        browser.tabs.sendMessage(tabs[0].id, {
+          command: "generate",
         });
       });
     }
@@ -62,18 +73,28 @@ function listenForClicks() {
      * Just log the error to the console.
      */
     function reportError(error) {
-      console.error(`Could not beastify: ${error}`);
+      console.error(`Could not recipy: ${error}`);
     }
 
     /**
      * Get the active tab,
-     * then call "beastify()" or "reset()" as appropriate.
+     * then call appropriate function.
      */
-    if (e.target.classList.contains("beast")) {
+    if (e.target.classList.contains("add")) {
       browser.tabs.query({active: true, currentWindow: true})
-        .then(beastify)
+        .then(add)
         .catch(reportError);
     }
+    else if (e.target.classList.contains("remove")) {
+      browser.tabs.query({active: true, currentWindow: true})
+        .then(remove)
+        .catch(reportError);
+    }
+    else if (e.target.classList.contains("generate")) {
+      browser.tabs.query({active: true, currentWindow: true})
+        .then(generate)
+        .catch(reportError);
+    }    
     else if (e.target.classList.contains("reset")) {
       browser.tabs.query({active: true, currentWindow: true})
         .then(reset)
@@ -89,7 +110,7 @@ function listenForClicks() {
 function reportExecuteScriptError(error) {
   document.querySelector("#popup-content").classList.add("hidden");
   document.querySelector("#error-content").classList.remove("hidden");
-  console.error(`Failed to execute beastify content script: ${error.message}`);
+  console.error(`Failed to execute recipy content script: ${error.message}`);
 }
 
 /**
@@ -97,6 +118,6 @@ function reportExecuteScriptError(error) {
  * and add a click handler.
  * If we couldn't inject the script, handle the error.
  */
-browser.tabs.executeScript({file: "/content_scripts/beastify.js"})
+browser.tabs.executeScript({file: "/content_scripts/recipy.js"})
 .then(listenForClicks)
 .catch(reportExecuteScriptError);
