@@ -39,7 +39,7 @@
 
   function removeURL() {
     let currentURL = window.location.href;
-    browset.runtime.sendMessage({"command": "remove", "url": currentURL});
+    browser.runtime.sendMessage({"command": "remove", "url": currentURL});
   }
 
   function generateList() {
